@@ -6,6 +6,16 @@
 
 KODI_SEND="kodi-send --host=127.0.0.1 --port=9777"
 
+# udev seems to send the change action twice.
+# therefore we check if this stuff was already processed like 5 seconds ago..
+# if so: we exit.
+RUNFILE="/var/tmp/kodi-disc-detect"
+if [ -f "$RUNFILE" ]; then
+    if [ $(($(date +%s) - 5)) -lt $(stat --format="%Y" $RUNFILE) ]; then
+        exit
+    fi
+fi
+
 trayopen /dev/sr0
 if [[ $? -eq 0 ]]; then
     # try umount
@@ -46,6 +56,5 @@ fi
 
 #logger send play to kodi
 #kodi-send --host=127.0.0.1 --port=9777 --action="PlayDVD"
+touch $RUNFILE
 logger "DISC DETECTION exited"
-
-
