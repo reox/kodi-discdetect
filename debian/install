@@ -1,4 +1,4 @@
 trayopen usr/bin
-kodi-detect-disk usr/bin
+kodi-detect-disc usr/bin
 82-cdrom.rules etc/udev/rules.d
 systemd-udev-override.conf etc/systemd/system/systemd-udevd.service.d
