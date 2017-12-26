@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Make sure that
+# https://unix.stackexchange.com/questions/330094/udev-rule-to-mount-disk-does-not-work
+# is set!
+
+KODI_SEND="kodi-send --host=127.0.0.1 --port=9777"
+
+trayopen /dev/sr0
+if [[ $? -eq 0 ]]; then
+    # try umount
+    grep -q cdrom /proc/mounts
+    if [[ $? -eq 0 ]]; then
+        umount /media/cdrom0
+        logger "unmounted device..."
+    fi
+    logger "tray is open"
+    $KODI_SEND -a "Notification(Disk Detection Tool,Disk removed)"
+    exit
+fi
+
+logger "BD/DVD detection script started"
+
+# wait a little bit until disk is loaded
+sleep 5
+
+blkid /dev/sr0 | grep -q UUID
+if [ $? -eq 1 ]; then
+    logger "No disk inserted... exit right away"
+    exit
+fi
+
+# Need to mount first:
+mount /media/cdrom0
+
+if [[ -f /media/cdrom0/BDMV/index.bdmv ]]; then
+    logger "this looks like a bluray, keep mounted"
+    $KODI_SEND -a "Notification(Disc Detection Tool,BluRay detected)"
+else
+    logger "this looks like a dvd, unmounting"
+    sleep 2
+    umount /media/cdrom0
+    logger "umount returned $?"
+    $KODI_SEND -a "Notification(Disc Detection Tool,DVD detected)"
+fi
+
+#logger send play to kodi
+#kodi-send --host=127.0.0.1 --port=9777 --action="PlayDVD"
+logger "DISC DETECTION exited"
+
+
