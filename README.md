@@ -11,3 +11,4 @@ Your `/etc/fstab` should look like this:
 
     /dev/sr0 /media/cdrom0 auto ro,noauto 0 0
 
+The `trayopen.c` code was copied from [here](https://askubuntu.com/a/483721/341537).
