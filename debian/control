@@ -1,9 +1,9 @@
-Source: kodi-diskdetect
+Source: kodi-discdetect
 Priority: optional
 Maintainer: Sebastian Bachmann <hello@reox.at>
 Build-Depends: debhelper (>= 10), make, gcc
 
-Package: kodi-diskdetect
+Package: kodi-discdetect
 Architecture: any
 Depends: kodi
 Description: Detect DVD and BluRays and keep only the latter mounted.
