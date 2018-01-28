@@ -1,1 +1,1 @@
-ATTRS{type}=="5", KERNEL=="sr0", SUBSYSTEM=="block", ENV{ID_PATH}=="pci-0000:00:1f.2-ata-3", ACTION=="change", RUN+="/usr/bin/kodi-detect-disc"
+KERNEL=="sr0", SUBSYSTEM=="block", ACTION=="change", TAG+="systemd", ENV{SYSTEMD_WANTS}="kodi-discdetect.service"
