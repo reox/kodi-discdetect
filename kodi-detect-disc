@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Make sure that
-# https://unix.stackexchange.com/questions/330094/udev-rule-to-mount-disk-does-not-work
-# is set!
-
 KODI_SEND="kodi-send --host=127.0.0.1 --port=9777"
 
 # udev seems to send the change action twice.
@@ -16,11 +12,9 @@ if [ -f "$RUNFILE" ]; then
     fi
 fi
 
-trayopen /dev/sr0
-if [[ $? -eq 0 ]]; then
+if trayopen /dev/sr0; then
     # try umount
-    grep -q cdrom /proc/mounts
-    if [[ $? -eq 0 ]]; then
+    if grep -q cdrom /proc/mounts; then
         umount /media/cdrom0
         logger "unmounted device..."
     fi
