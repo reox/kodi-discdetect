@@ -1,4 +1,5 @@
 Source: kodi-discdetect
+Section: video
 Priority: optional
 Maintainer: Sebastian Bachmann <hello@reox.at>
 Build-Depends: debhelper (>= 10), make, gcc
